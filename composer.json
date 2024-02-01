@@ -79,8 +79,7 @@
     "process-timeout": 0
   },
   "repositories": [
-    {
-      "type": "composer",
+    {      "type": "composer",
       "url": "https://wpackagist.org",
       "only": [
         "wpackagist-plugin/*"

@@ -12,9 +12,7 @@ final class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'block_content_filter' => [
-                'feature_notice' => 'wp-block-content-filter',
-            ],
+            'block_content_filter' => [],
             'hook' => [
                 'provider' => [
                     BlockContentFilterRegistry::class,

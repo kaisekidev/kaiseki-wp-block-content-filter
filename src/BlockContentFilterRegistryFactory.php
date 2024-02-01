@@ -30,7 +30,7 @@ final class BlockContentFilterRegistryFactory
     {
         $config = Config::get($container);
         /** @var array<string, FilterPipeline> $filterSettings */
-        $filterSettings = $config->array('block_editor/block_content_filter', []);
+        $filterSettings = $config->array('block_content_filter', []);
         return array_map(
             fn (array $value): BlockContentFilterInterface
             => new BlockContentFilterPipeline(...Config::initClassMap($container, $value)),
