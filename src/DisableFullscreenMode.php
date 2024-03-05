@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Kaiseki\WordPress\BlockContentFilter;
 
-use Kaiseki\WordPress\Hook\HookCallbackProviderInterface;
+use Kaiseki\WordPress\Hook\HookProviderInterface;
 
-final class DisableFullscreenMode implements HookCallbackProviderInterface
+use function add_action;
+use function wp_add_inline_script;
+
+final class DisableFullscreenMode implements HookProviderInterface
 {
-    public function registerHookCallbacks(): void
+    public function addHooks(): void
     {
         add_action('enqueue_block_editor_assets', [$this, 'disableFullScreenEditor']);
     }

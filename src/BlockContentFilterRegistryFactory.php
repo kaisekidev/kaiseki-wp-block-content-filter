@@ -28,12 +28,12 @@ final class BlockContentFilterRegistryFactory
      */
     public function getFilter(ContainerInterface $container): array
     {
-        $config = Config::get($container);
+        $config = Config::fromContainer($container);
         /** @var array<string, FilterPipeline> $filterSettings */
-        $filterSettings = $config->array('block_content_filter', []);
+        $filterSettings = $config->array('block_content_filter');
+
         return array_map(
-            fn (array $value): BlockContentFilterInterface
-            => new BlockContentFilterPipeline(...Config::initClassMap($container, $value)),
+            fn(array $value): BlockContentFilterInterface => new BlockContentFilterPipeline(...Config::initClassMap($container, $value)),
             $filterSettings,
         );
     }

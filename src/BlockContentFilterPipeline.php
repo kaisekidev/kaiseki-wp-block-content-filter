@@ -19,6 +19,7 @@ final class BlockContentFilterPipeline implements BlockContentFilterInterface
         foreach ($this->filter as $filter) {
             $content = ($filter)($content, $block);
         }
+
         return $content;
     }
 }

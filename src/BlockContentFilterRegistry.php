@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Kaiseki\WordPress\BlockContentFilter;
 
-use Kaiseki\WordPress\Hook\HookCallbackProviderInterface;
+use Kaiseki\WordPress\Hook\HookProviderInterface;
 
+use function add_filter;
 use function array_filter;
 use function fnmatch;
 use function is_string;
 
 use const ARRAY_FILTER_USE_BOTH;
 
-final class BlockContentFilterRegistry implements HookCallbackProviderInterface
+final class BlockContentFilterRegistry implements HookProviderInterface
 {
     /**
      * @param array<string, BlockContentFilterInterface> $filter
@@ -21,7 +22,7 @@ final class BlockContentFilterRegistry implements HookCallbackProviderInterface
     {
     }
 
-    public function registerHookCallbacks(): void
+    public function addHooks(): void
     {
         add_filter('render_block', [$this, 'updateBlock'], 20, 2);
     }
@@ -56,7 +57,7 @@ final class BlockContentFilterRegistry implements HookCallbackProviderInterface
     {
         return array_filter(
             $this->filter,
-            fn ($filter, $key) => fnmatch($key, $blockName),
+            fn($filter, $key) => fnmatch($key, $blockName),
             ARRAY_FILTER_USE_BOTH
         );
     }

@@ -21,7 +21,7 @@ final class ConfigProvider
             'dependencies' => [
                 'aliases' => [],
                 'factories' => [
-                    BlockContentFilterRegistry::class    => BlockContentFilterRegistryFactory::class,
+                    BlockContentFilterRegistry::class => BlockContentFilterRegistryFactory::class,
                 ],
             ],
         ];
