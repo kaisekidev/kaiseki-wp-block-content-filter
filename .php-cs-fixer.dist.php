@@ -12,4 +12,3 @@ $finder = Finder::create()
     ]);
 
 return Config::get($finder);
-
