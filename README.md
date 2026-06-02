@@ -28,11 +28,12 @@ Requires PHP 8.2 or newer.
 
 Register `ConfigProvider` with your laminas-style config aggregator, then declare a
 `block_content_filter` map of `fnmatch` block-name patterns to a list of filter class-strings (or
-instances). `BlockContentFilterRegistry` is wired as a `kaiseki/wp-hook` provider, so add it to your
-`hook.provider` list:
+instances). `ConfigProvider` already wires `BlockContentFilterRegistry` into `hook.provider`, so the
+registry runs automatically once `ConfigProvider` is registered — you only need to supply the filter
+map (do **not** add `BlockContentFilterRegistry` to `hook.provider` yourself, or it will be registered
+twice and the pipeline will run twice):
 
 ```php
-use Kaiseki\WordPress\BlockContentFilter\BlockContentFilterRegistry;
 use Kaiseki\WordPress\BlockContentFilter\Filter\CoreHeadingClassFilter;
 use Kaiseki\WordPress\BlockContentFilter\Filter\CoreParagraphClassFilter;
 
@@ -48,17 +49,27 @@ return [
             CoreHeadingClassFilter::class,
         ],
     ],
-    'hook' => [
-        'provider' => [
-            BlockContentFilterRegistry::class,
-        ],
-    ],
 ];
 ```
 
 Each filter class-string is resolved through the container (`Config::initClassMap`), so a filter that
 needs constructor arguments can be registered as a container service; the bundled filters work out of
 the box with sensible defaults.
+
+The standalone `DisableFullscreenMode` provider is **not** registered by `ConfigProvider` — opt into it
+explicitly by adding it to your own `hook.provider` list:
+
+```php
+use Kaiseki\WordPress\BlockContentFilter\DisableFullscreenMode;
+
+return [
+    'hook' => [
+        'provider' => [
+            DisableFullscreenMode::class,
+        ],
+    ],
+];
+```
 
 Write your own filter by implementing `BlockContentFilterInterface`:
 
